@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Hourglass Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+      background-color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    #timer {
+      font-size: 64px;
+      margin-bottom: 20px;
+      color: black;
+      transition: color 0.3s ease;
+    }
+
+    button, input {
+      font-size: 18px;
+      margin: 5px;
+      padding: 10px 20px;
+    }
+
+    input[type="number"] {
+      width: 80px;
+    }
+
+    .flash-once {
+      animation: flash 1s 3;
+    }
+
+    @keyframes flash {
+      0%   { background-color: white; }
+      50%  { background-color: red; }
+      100% { background-color: white; }
+    }
+
+    #startBtn, #flipBtn {
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <label for="customMinutes">Minutes:</label>
+    <input type="number" id="customMinutes" min="0" value="5" onchange="setCustomTime()">
+    <label for="customSeconds">Seconds:</label>
+    <input type="number" id="customSeconds" min="0" max="59" value="0" onchange="setCustomTime()">
+  </div>
+
+  <div id="timer">05:00</div>
+  <button id="startBtn" onclick="toggleTimer()">Start</button>
+  <button onclick="resetTimer()">Reset</button>
+  <button id="flipBtn" onclick="flipTimer()">Flip</button>
+
+  <script>
+    let totalTime = 5 * 60;
+    let timePassed = 0;
+    let timerInterval = null;
+    let running = false;
+    let alertTimeout = null;
+
+    const timerDisplay = document.getElementById("timer");
+    const body = document.body;
+    const startBtn = document.getElementById("startBtn");
+    const flipBtn = document.getElementById("flipBtn");
+
+    function updateDisplay() {
+      const timeLeft = totalTime - timePassed;
+
+      if (timeLeft <= 10 && timeLeft > 0) {
+        timerDisplay.style.color = 'red';
+      } else {
+        timerDisplay.style.color = 'black';
+      }
+
+      if (timeLeft <= 0) {
+        timerDisplay.textContent = "TIME'S UP!";
+        startBtn.style.display = "none";
+        flipBtn.style.display = "none";
+
+        // Flash background 3 times
+        body.classList.add('flash-once');
+        if (!alertTimeout) {
+          alertTimeout = setTimeout(() => {
+            body.classList.remove('flash-once');
+            alertTimeout = null;
+          }, 3000); // Ends after 3 seconds (3 flashes)
+        }
+      } else {
+        const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+        const seconds = String(timeLeft % 60).padStart(2, '0');
+        timerDisplay.textContent = `${minutes}:${seconds}`;
+        startBtn.style.display = "inline-block";
+        flipBtn.style.display = "inline-block";
+      }
+    }
+
+    function toggleTimer() {
+      if (running) {
+        clearInterval(timerInterval);
+        running = false;
+        startBtn.textContent = "Start";
+      } else {
+        timerInterval = setInterval(() => {
+          timePassed++;
+          if (timePassed >= totalTime) {
+            timePassed = totalTime;
+            clearInterval(timerInterval);
+            running = false;
+            startBtn.textContent = "Start";
+          }
+          updateDisplay();
+        }, 1000);
+        running = true;
+        startBtn.textContent = "Stop";
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      if (alertTimeout) {
+        clearTimeout(alertTimeout);
+        alertTimeout = null;
+      }
+
+      timePassed = 0;
+      running = false;
+      timerDisplay.style.color = 'black';
+      body.classList.remove('flash-once');
+      startBtn.textContent = "Start";
+      startBtn.style.display = "inline-block";
+      flipBtn.style.display = "inline-block";
+      updateDisplay();
+    }
+
+    function flipTimer() {
+      const timeLeft = totalTime - timePassed;
+      timePassed = timeLeft;
+      updateDisplay();
+    }
+
+    function setCustomTime() {
+      const minutes = parseInt(document.getElementById("customMinutes").value) || 0;
+      const seconds = parseInt(document.getElementById("customSeconds").value) || 0;
+      totalTime = (minutes * 60) + seconds;
+      timePassed = 0;
+      resetTimer();
+    }
+
+    // Initialize display
+    updateDisplay();
+  </script>
+
+</body>
+</html>
