@@ -2,100 +2,134 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <title>Custom Hourglass Timer</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: white;
-      transition: background-color 0.3s ease;
-    }
+  body {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    background: linear-gradient(135deg, #4D2E8D, #526599, #619197, #90BD81 90%);
+    transition: all 0.3s ease;
+    min-height: 100vh;
+  }
 
-    #timer {
-      font-size: 64px;
-      margin: 50px;
-      color: black;
-      transition: color 0.3s ease;
-    }
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #E0DEDF;
+    border-radius: 20px;
+    padding: 20px 130px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-    button, input {
-      font-size: 22px;
-      margin: 20px 5px;
-      padding: 15px 25px;
-      border-radius: 10px;
-      border: 1px solid black;
-    }
+  #timer {
+    font-size: 5rem;
+    font-weight: 200;
+    margin: 40px;
+    transition: color 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
 
-    input[type="number"] {
-      width: 40px;
-    }
+  button, input {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 22px;
+    margin: 15px 10px;
+    padding: 0.5em 1.5em;
+    border: none;
+    background: #695B9A;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 2em;
+  }
 
-    .flash-once {
-      animation: flash 1s 3;
-    }
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
 
-    @keyframes flash {
-      0%   { background-color: white; }
-      50%  { background-color: rgb(254, 207, 207); }
-      100% { background-color: white; }
-    }
+  input[type="number"] {
+    width: 60px;
+    text-align: center;
+    background: #ffffff;
+    border: 2px solid #619197;
+    color: #333;
+  }
 
-    /* Hourglass container */
-    #hourglass {
-      position: relative;
-      width: 250px;
-      height: 540px;
-      margin: 20px auto;
-      background: linear-gradient(to bottom, #cccccc 0%, #f4f4f4 20%, #f4f4f4 30%, #cccccc 50%, #f4f4f4 70%, #f4f4f4 80%, #cccccc 100%);
-      clip-path: polygon(15% 0%, 85% 0%, 95% 15%, 85% 35%, 55% 50%, 85% 65%, 95% 85%, 85% 100%, 15% 100%, 5% 85%, 15% 65%, 45% 50%, 15% 35%, 5% 15%);
-      border: 4px solid rgb(70, 49, 31);
-      overflow: hidden;
-    }
+  .flash-once {
+    animation: flash 1s 3;
+  }
 
-    /* Top sand */
-    #topSand {
-      position: absolute;
-      width: 100%;
-      height: 50%;
-      background-color: #b48055;
-      clip-path: polygon(0% 50%, 100% 50%, 100% 100%, 0% 100%);
-      transition: all 0.5s linear;
-      bottom: 50%;
-      transform-origin: bottom;
-    }
+  @keyframes flash {
+    0%   { background: #4D2E8D; }
+    50%  { background: #90BD81; }
+    100% { background: #4D2E8D; }
+  }
 
-    /* Bottom sand */
-    #bottomSand {
-      position: absolute;
-      width: 100%;
-      height: 0;
-      bottom: 0;
-      background-color: #b48055;
-      clip-path: polygon(0% 55%, 50% 35%, 100% 55%, 100% 100%, 0% 100%);
-      transition: all 0.5s linear;
-      transform-origin: top;
-    }
+  /* Hourglass container */
+  #hourglass {
+    position: relative;
+    width: 270px;
+    height: 540px;
+    margin: 20px auto;
+    background: linear-gradient(to bottom, #4D2E8D 0%, #619197 20%, #619197 30%, #4D2E8D 50%, #619197 70%, #619197 80%, #4D2E8D 100%);
+    clip-path: polygon(15% 0%, 85% 0%, 95% 15%, 85% 35%, 55% 50%, 85% 65%, 95% 85%, 85% 100%, 15% 100%, 5% 85%, 15% 65%, 45% 50%, 15% 35%, 5% 15%);
+    border: 4px solid #2E2F2E;
+    overflow: hidden;
+  }
 
-    /* Falling sand */
-    #fallingSand {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 5%;
-      height: 100%;
-      transform: translateX(-50%);
-      /* overflow: hidden; */
-    }
+  /* Top sand */
+  #topSand {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    background-color: #9ccb8c;
+    clip-path: polygon(0% 50%, 100% 50%, 100% 100%, 0% 100%);
+    transition: all 0.5s linear;
+    bottom: 50%;
+    transform-origin: bottom;
+  }
 
-    /* Sand particle */
-    .sandParticle {
-      position: absolute;
-      width: 0.6vh;
-      height: 0.6vh;
-      background-color: #b48055;
-      border-radius: 50%;
-      animation: fall 1s ease-in infinite;
-    }
+  /* Bottom sand */
+  #bottomSand {
+    position: absolute;
+    width: 100%;
+    height: 0;
+    bottom: 0;
+    background-color: #9ccb8c;
+    clip-path: polygon(0% 55%, 50% 35%, 100% 55%, 100% 100%, 0% 100%);
+    transition: all 0.5s linear;
+    transform-origin: top;
+  }
+
+  /* Falling sand */
+  #fallingSand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5%;
+    height: 100%;
+    transform: translateX(-50%);
+  }
+
+  /* Sand particle */
+  .sandParticle {
+    position: absolute;
+    width: 0.6vh;
+    height: 0.6vh;
+    background-color: #9ccb8c;
+    border-radius: 50%;
+    animation: fall 1s ease-in infinite;
+  }
 
     /* Falling animation */
     @keyframes fall {
@@ -108,41 +142,75 @@
         opacity: 0.2;
       }
     }
+
     /* Add flip animation */
     @keyframes flip {
       0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
       }
       100% {
-      transform: rotate(180deg);
+        transform: rotate(180deg);
       }
     }
 
     #hourglass.flipping {
       animation: flip 0.5s ease-in-out forwards;
     }
+
+  /* Responsive styles for mobile devices */
+  @media (max-width: 600px) {
+    .container {
+      padding: 20px 10px;
+    }
+
+    #timer {
+      font-size: 3rem;
+      margin: 10px;
+      margin-bottom: 10px;
+    }
+
+    button, input {
+      font-size: 18px;
+      margin: 10px 5px;
+    }
+
+    input {
+      font-size: 18px;
+      padding: 5px;
+    }
+
+    #hourglass {
+      width: 150px;
+      height: 300px;
+    }
+  }
   </style>
 </head>
 <body>
-
-  <div>
-    <label for="customMinutes">Minutes:</label>
-    <input type="number" id="customMinutes" min="0" value="5" onchange="setCustomTime()">
-    <label for="customSeconds">Seconds:</label>
-    <input type="number" id="customSeconds" min="0" max="59" value="0" onchange="setCustomTime()">
-  </div>
-
-  <button id="startBtn" onclick="toggleTimer()">Start</button>
-  <button id="resetBtn" onclick="resetTimer()">Reset</button>
-  <button id="flipBtn" onclick="flipTimer()">Flip</button>
-
-  <div id="timer">05:00</div>
-
-  <div id="hourglass">
-    <div id="topSand"></div>
-    <div id="fallingSand"></div>
-    <div id="bottomSand"></div>
-  </div>
+  
+  <div class="container">
+  
+    <div>
+      <label for="customMinutes">Minutes:</label>
+      <input type="number" id="customMinutes" min="0" value="5" onchange="setCustomTime()">
+      <label for="customSeconds">Seconds:</label>
+      <input type="number" id="customSeconds" min="0" max="59" value="0" onchange="setCustomTime()">
+    </div>
+    
+    <div id="buttonContainer">
+      <button id="startBtn" onclick="toggleTimer()">Start</button>
+      <button id="resetBtn" onclick="resetTimer()">Reset</button>
+      <button id="flipBtn" onclick="flipTimer()">Flip</button>
+    </div>
+    
+    <div id="timer">05:00</div>
+    
+    <div id="hourglass">
+      <div id="topSand"></div>
+      <div id="fallingSand"></div>
+      <div id="bottomSand"></div>
+    </div>
+    </div>
 
   <script>
     let totalTime = 5 * 60;
@@ -157,6 +225,7 @@
     const flipBtn = document.getElementById("flipBtn");
     const resetBtn = document.getElementById("resetBtn");
 
+    // Initial setup to hide all buttons except "Start"
     startBtn.style.display = "inline-block";
     flipBtn.style.display = "inline-block";
     resetBtn.style.display = "none";
@@ -168,15 +237,14 @@
       const timeLeft = totalTime - timePassed;
 
       if (timeLeft <= 10 && timeLeft > 0) {
-        timerDisplay.style.color = 'red';
+        timerDisplay.style.color = '#ad202a';
       } else {
-        timerDisplay.style.color = 'black';
+        timerDisplay.style.color = '#222';
       }
 
       if (timeLeft <= 0) {
         timerDisplay.textContent = "TIME'S UP!";
         fallingSand.innerHTML = '';
-
 
         body.classList.add('flash-once');
         if (!alertTimeout) {
@@ -195,21 +263,22 @@
     function manageButtons() {
       const timeLeft = totalTime - timePassed;
 
+      // Ensure only the "Start" button is visible initially and after reset
       if (timePassed === 0 && !running) {
         startBtn.style.display = "inline-block";
         resetBtn.style.display = "none";
-        flipBtn.style.display = "inline-block";
-        return;
+        flipBtn.style.display = "inline-block"; // Show Flip button initially
+        return; // Exit early to avoid further checks
       }
 
       if (timeLeft <= 0) {
         startBtn.style.display = "none";
         resetBtn.style.display = "inline-block";
-        flipBtn.style.display = "none";
+        flipBtn.style.display = "none"; // Hide Flip button when time is up
       } else {
         startBtn.style.display = "inline-block";
         resetBtn.style.display = "inline-block";
-        flipBtn.style.display = "inline-block";
+        flipBtn.style.display = "inline-block"; // Show Flip button when time is left
       }
 
       if (running) {
@@ -244,7 +313,7 @@
       const fallingSand = document.getElementById("fallingSand");
       fallingSand.innerHTML = '';
 
-      const particleCount = 10;
+      const particleCount = 10; // Number of particles to simulate
       for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement("div");
         particle.classList.add("sandParticle");
@@ -293,6 +362,7 @@
       body.classList.remove('flash-once');
       startBtn.textContent = "Start";
 
+      // Reset sand positions
       const topSand = document.getElementById("topSand");
       const bottomSand = document.getElementById("bottomSand");
       const fallingSand = document.getElementById("fallingSand");
@@ -320,20 +390,25 @@
       const topSand = document.getElementById("topSand");
       const bottomSand = document.getElementById("bottomSand");
 
-      const topSandHeight = parseFloat(topSand.style.height) || 50;
-      const bottomSandHeight = parseFloat(bottomSand.style.height) || 0;
+      // Get the current heights of the sand
+      const topSandHeight = parseFloat(topSand.style.height) || 50; // Default to 50% if not set
+      const bottomSandHeight = parseFloat(bottomSand.style.height) || 0; // Default to 0% if not set
 
+      // Smoothly transition the sand heights
       topSand.style.transition = "height 1s ease-in-out";
       bottomSand.style.transition = "height 1s ease-in-out";
 
-      topSand.style.height = `${bottomSandHeight}%`;
-      bottomSand.style.height = `${topSandHeight}%`;
+      topSand.style.height = `${bottomSandHeight}%`; // Move top sand to bottom
+      bottomSand.style.height = `${topSandHeight}%`; // Move bottom sand to top
 
+      // Add the flipping animation to the hourglass
       hourglass.classList.add("flipping");
 
+      // Remove the flipping class after the animation ends
       hourglass.addEventListener("animationend", function handleFlipEnd() {
         hourglass.classList.remove("flipping");
 
+        // Ensure transitions are reset for further updates
         topSand.style.transition = "";
         bottomSand.style.transition = "";
 
